@@ -23,7 +23,7 @@ const UserSchema = new Schema({
         required: true,
         trim: true,
         validate(value) {
-            if(value.toLowerCase().includes(password)){
+            if(value.toLowerCase().includes("password")){
                 throw new Error('Password should not have term password')
             }
         }
@@ -34,5 +34,17 @@ const UserSchema = new Schema({
 )
 
 const User = model('User', UserSchema)
+
+// const user1 = new User({
+//     "username": "Rajnish Tiwari",
+//     "email": "rajn@g.com",
+//     "password": "test"
+// })
+
+// user1.save().then((data) =>{
+//     console.log(data);
+// }).catch((err)=>{
+//     console.log(err);
+// })
 
 module.exports = User

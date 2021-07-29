@@ -21,3 +21,16 @@ const QuestionSchema = new Schema({
 }, { timestamps: true })
 
 const Question = model('Question', QuestionSchema)
+
+// const q1 = new Question({
+//     "description": "this is first question",
+//     "creator": "610310c1ea60c359127f84a6"
+// })
+
+// q1.save().then((data) =>{
+//     console.log(data)
+// }).catch((err) => {
+//     console.log(err)
+// })
+
+module.exports = Question

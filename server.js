@@ -1,6 +1,11 @@
 const express = require('express')
-
 require('dotenv').config()
+
+require('./database/db')
+require('./database/models/user')
+require('./database/models/question')
+require('./database/models/answer')
+require('./database/models/comment')
 
 const app = express();
 
