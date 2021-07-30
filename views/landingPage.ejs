@@ -1,0 +1,42 @@
+<%- include('partials/header.ejs') %>
+
+<div>
+    <form method="POST" action="/">
+        <input name="qt" type="text" id="quesInput" />
+        <button type="submit">Add Question</button>
+    </form>
+</div>
+
+<div class="outerDiv"></div>
+    <ul class="listOfQuestions"></ul>
+        <% questionArr.forEach((question) => { %>
+            <li class="individualQuestion">
+                <h1><%= question.description %></h1>
+                <ul class="listOfAnswers">
+                    <% answerArr.forEach((ans) => { %> 
+                        <% if(ans.question.toString() === question._id.toString()) {%>
+                            <li class="individualAnswer">
+                                <h2><%= ans.answerText %></h2>
+                                <ul class="listOfComments">
+                                    <% commentArr.forEach((comment) => { %>
+                                        <% if(comment.answer.toString() === ans._id.toString()) { %>
+                                            <li class="individualComment">
+                                                <h3><%= comment.commentText %></h3>
+                                            </li>
+                                        <% } %>    
+                                    <% }) %>
+                                </ul>
+                            </li>
+                        <% } %>
+                    <% }) %>
+                </ul>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+
+<script>
+    const quesInput = document.getElementById('quesInput');
+</script>
+
+<%- include('partials/footer.ejs') %>

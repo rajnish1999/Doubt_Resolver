@@ -1,16 +1,53 @@
 const express = require('express')
+const path = require('path')
 require('dotenv').config()
 
 require('./database/db')
-require('./database/models/user')
-require('./database/models/question')
-require('./database/models/answer')
-require('./database/models/comment')
+const User = require('./database/models/user')
+const Question = require('./database/models/question')
+const Answer = require('./database/models/answer')
+const Comment = require('./database/models/comment')
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send("All ok")
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
+
+app.get('/', async (req, res) => {
+    let questionArr = await Question.find({})
+    let answerArr = await Answer.find({})
+    let commentArr = await Comment.find({})
+    res.render('landingPage', {
+        questionArr,
+        answerArr,
+        commentArr
+    })
+})
+
+app.post('/', async (req, res) => {
+
+    console.log(req.body);
+    const quesText = req.body.qt
+
+    const newQuestion = new Question({
+        "description": quesText
+    })
+    const data = await newQuestion.save()
+
+    let questionArr = await Question.find({})
+    let answerArr = await Answer.find({})
+    let commentArr = await Comment.find({})
+    
+    
+
+    res.render('landingPage', {
+        questionArr,
+        answerArr,
+        commentArr
+    })
 })
 
 const port = process.env.PORT || 5000

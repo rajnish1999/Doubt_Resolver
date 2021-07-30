@@ -30,11 +30,13 @@ const CommentSchema = Schema({
 
 const Comment = model('Comment', CommentSchema)
 
+module.exports = Comment
+
 // const comment = new Comment({
-//     "commentText": "this is my comment",
+//     "commentText": "this is my 1st comment to ans 3 of q 1",
 //     "creator": "610310c1ea60c359127f84a6",
 //     "question": "610317cdc2bec7610ae6bf5f",
-//     "answer": "6103195830ac02623bdf90ed"
+//     "answer": "6103af08a8bb618613a51708"
 // })
 
 // comment.save().then((data) =>{
@@ -43,4 +45,3 @@ const Comment = model('Comment', CommentSchema)
 //     console.log(err)
 // })
 
-module.exports = Comment

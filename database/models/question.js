@@ -22,8 +22,10 @@ const QuestionSchema = new Schema({
 
 const Question = model('Question', QuestionSchema)
 
+module.exports = Question
+
 // const q1 = new Question({
-//     "description": "this is first question",
+//     "description": "this is second question",
 //     "creator": "610310c1ea60c359127f84a6"
 // })
 
@@ -33,4 +35,3 @@ const Question = model('Question', QuestionSchema)
 //     console.log(err)
 // })
 
-module.exports = Question
