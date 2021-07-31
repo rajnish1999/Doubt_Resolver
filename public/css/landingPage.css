@@ -1,0 +1,138 @@
+textarea {
+    /* border: none; */
+    outline: none; 
+    resize: none;
+    font-size: 1rem;
+}
+
+h1 {
+    font-size: 2rem
+}
+
+.askQuesDiv {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 20vh;
+    border: 10px groove rgb(138, 49, 49);
+    height: 40vh;
+}
+
+.askQuesDiv h1 {
+    margin: 0 auto;
+    text-align: center;
+   
+}
+
+.question_form {
+    width: 90%;
+    height: 90%;
+    margin:auto;
+}
+
+#quesInput {
+    width: 95%;
+    height: 60%;
+    margin: auto;
+    border-radius: 0.5rem;
+    border: 0.5rem groove rgb(87, 28, 67);
+}
+
+.ques_button {
+    display: block
+}
+
+.outerDivForQuestions {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 6em;
+    border: 0.5rem groove rgb(138, 49, 49);
+}
+
+.divShowingQuestion,
+.divShowingAnswer,
+.divShowingComment {
+    margin: 1rem 2rem;
+    /* margin-bottom: 1 rem; */
+}
+
+/* hr before Answer Section */
+
+
+/* answer section */
+
+.divShowingAnswer {
+    border-top: 1px solid #dee0e1;
+}
+
+.divToWriteAns,
+.divToWriteComment {
+    display: flex;
+    justify-content: space-between;
+    margin: 2em;
+    align-items: center;
+    background-color: #eff2f5;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    border-radius: 2rem;
+    
+}
+
+.ansInput,
+.commentInput {
+    margin: 0 auto;
+    flex-grow: 3;
+    margin-right:0.5rem;
+    width: 90%;
+    border: none;
+    outline: none; 
+    background-color: transparent;
+    /* border: 5px solid black; */
+   
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgb(252, 178, 191);
+    font-size: 1em;
+  }
+
+.ans_button,
+.comment_button {
+    background-color: #4ec0e6;
+    border: none;
+    color: white;
+    padding: 0.5em 0.8em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 2em;
+    white-space: nowrap;
+   
+}
+
+.questionOptions,
+.answerOptions,
+.commentOptions {
+    display: flex !important;
+    justify-content: space-between;
+    margin: 1rem 0rem;
+    padding: 0.5rem;
+}
+
+
+.upAndDownVote {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttonForUp{
+    margin-right: 1rem
+}
+
+/* comment section */
+
+.divShowingComment {
+    margin-left: 4rem;
+    border-left: 2px solid #dee0e1;
+    padding-left: 1rem;
+}

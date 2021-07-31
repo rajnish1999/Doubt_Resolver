@@ -1,0 +1,110 @@
+<%- include('partials/header.ejs') %>
+
+<div class="outerMostDiv">
+    <div class="askQuesDiv">
+        <h1 class="heading_question">Ask your doubt!!</h1>
+        <form method="POST" action="/" class="question_form">
+            <textarea name="qt" type="text" id="quesInput" ></textarea>
+            <button class="ques_button" type="submit">Add Question</button>
+        </form>
+    </div>
+    <% for(let i=0;i< questionArr.length;i++) { %>
+        <div class="outerDivForQuestions">
+            <div class="divShowingQuestion">
+                <h1><%= questionArr[i].description %></h1>
+                <div class="questionOptions">
+                    <div class="upAndDownVote">
+                        <button class="buttonForUpQUestion"><i class="fas fa-thumbs-up"></i></button>
+                        <button class="buttonForDownQUestion"><i class="fas fa-thumbs-down"></i></button>
+                    </div>
+                    <button id="answerToggle-<%= i %>" onClick="toggleAnswer('<%= i %>')">Answers</button>
+                </div>
+            </div>
+            
+            <div class="divToWriteAns">
+                <textarea name="ans" type="text" class="ansInput" rows="1" placeholder="Add an answer..."></textarea>
+                <button  class="ans_button" type="submit">Add Answer</button>
+            </div>
+
+            <div id="seeAllAns-<%= i %>" style="display:none">
+                
+                    <% for(let j=0;j<answerArr.length;j++) { %>
+                        <%= console.log(j+"j") %> 
+                        <% if(answerArr[j].question.toString() === questionArr[i]._id.toString()) {%>
+                                <div class="divShowingAnswer">
+                                    <h2><%= answerArr[j].answerText %></h2>
+                                    <div class="answerOptions">
+                                        <div class="upAndDownVote">
+                                            <button class="buttonForUpAnswer"><i class="fas fa-thumbs-up"></i></button>
+                                            <button class="buttonForDownAnswer"><i class="fas fa-thumbs-down"></i></button>
+                                        </div>
+                                        <button id="commentToggle-<%= j %>" onClick="toggleComment('<%= j %>')">Comments</button>
+                                    </div>
+                                </div>
+                                <!-- <hr class="hrAfterQuestion"> -->
+                                <div class="divToWriteComment">
+                                    <textarea name="ans" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
+                                    <button  class="comment_button" type="submit">Add Comment</button>
+                                </div>
+                    
+                                <!-- <div id="seeAllAns-<%= i %>" style="display:none">
+                                    <hr class="hrAfterQuestion">
+                                    <ul class="listOfAnswers">
+                                        <% for(let k=0;j<commentArr.length;j++) { %> 
+                                            <% if(answerArr[j].question.toString() === questionArr[i]._id.toString()) {%>
+                                                <li class="individualAnswer">
+                                                    <h2><%= answerArr[j].answerText %></h2>
+                                                </li>
+                                            <% } %>
+                                        <% } %>
+                                    </ul>
+                                </div> -->
+                            <!-- </div> -->
+                        <% } %>
+                    <% } %>
+                
+            </div>
+        </div>
+    <% } %>
+        
+            <!-- <% questionArr.forEach((question) => { %>
+                <div class="individualQuestion">
+                    <h1><%= question.description %></h1>
+                    <ul class="listOfAnswers">
+                        <% answerArr.forEach((ans) => { %> 
+                            <% if(ans.question.toString() === question._id.toString()) {%>
+                                <li class="individualAnswer">
+                                    <h2><%= ans.answerText %></h2>
+                                    <ul class="listOfComments">
+                                        <% commentArr.forEach((comment) => { %>
+                                            <% if(comment.answer.toString() === ans._id.toString()) { %>
+                                                <li class="individualComment">
+                                                    <h3><%= comment.commentText %></h3>
+                                                </li>
+                                            <% } %>    
+                                        <% }) %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                </div>
+            <% }) %> -->
+        
+    
+</div>
+
+<script>
+    const toggleAnswer = (i) => {
+        const ansOfQ = document.getElementById(`seeAllAns-${i}`);
+        console.log(`seeAllAns-${i}`);
+        if(ansOfQ.style.display === 'none'){
+            console.log("inside none");
+            ansOfQ.style.display = 'block'
+        }else{
+            ansOfQ.style.display = 'none'
+        }
+    }
+</script>
+
+<%- include('partials/footer.ejs') %>
