@@ -7,6 +7,7 @@ const User = require('./database/models/user')
 const Question = require('./database/models/question')
 const Answer = require('./database/models/answer')
 const Comment = require('./database/models/comment')
+const addQuesRoute = require('./routes/question.js');
 
 const app = express();
 
@@ -28,28 +29,7 @@ app.get('/', async (req, res) => {
     })
 })
 
-app.post('/', async (req, res) => {
-
-    console.log(req.body);
-    const quesText = req.body.qt
-
-    const newQuestion = new Question({
-        "description": quesText
-    })
-    const data = await newQuestion.save()
-
-    let questionArr = await Question.find({})
-    let answerArr = await Answer.find({})
-    let commentArr = await Comment.find({})
-    
-    
-
-    res.render('landingPage', {
-        questionArr,
-        answerArr,
-        commentArr
-    })
-})
+app.use(addQuesRoute);
 
 const port = process.env.PORT || 5000
 
