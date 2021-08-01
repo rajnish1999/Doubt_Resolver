@@ -7,7 +7,9 @@ const User = require('./database/models/user')
 const Question = require('./database/models/question')
 const Answer = require('./database/models/answer')
 const Comment = require('./database/models/comment')
-const addQuesRoute = require('./routes/question.js');
+const quesRoute = require('./routes/question.js');
+const ansRoute = require('./routes/answer.js');
+const commentRoute = require('./routes/comment.js');
 
 const app = express();
 
@@ -29,7 +31,9 @@ app.get('/', async (req, res) => {
     })
 })
 
-app.use(addQuesRoute);
+app.use(quesRoute);
+app.use(ansRoute);
+app.use(commentRoute);
 
 const port = process.env.PORT || 5000
 

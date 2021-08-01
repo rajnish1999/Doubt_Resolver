@@ -22,10 +22,11 @@
                 </div>
             </div>
             
-            <div class="divToWriteAns">
+            <form method="POST" action="/addAnswer" class="divToWriteAns">
                 <textarea name="ans" type="text" class="ansInput" rows="1" placeholder="Add an answer..."></textarea>
                 <button  class="ans_button" type="submit">Add Answer</button>
-            </div>
+                <input type="hidden" name="question" value="<%= questionArr[i]._id %>" />
+            </form>
 
             <div id="seeAllAns-<%= i %>" style="display:none">
                 
@@ -42,10 +43,11 @@
                             </div>
                         </div>
 
-                        <div class="divToWriteComment">
-                            <textarea name="ans" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
+                        <form method="POST" action="/addComment" class="divToWriteComment">
+                            <textarea name="comment" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
                             <button  class="comment_button" type="submit">Add Comment</button>
-                        </div>
+                            <input type="hidden" name="answer" value="<%= answerArr[j]._id %>" />
+                        </form>
                         <div id="seeAllComment-<%= j %>" style="display:none">
                 
                             <% for(let k=0;k< commentArr.length;k++) { %>
@@ -58,11 +60,6 @@
                                                 <button class="buttonForDown"><i class="fas fa-thumbs-down"></i></button>
                                             </div>
                                         </div>
-                                    </div>
-            
-                                    <div class="divToWriteComment">
-                                        <textarea name="ans" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
-                                        <button  class="comment_button" type="submit">Add Comment</button>
                                     </div>
                                 <% } %>
                             <% } %>

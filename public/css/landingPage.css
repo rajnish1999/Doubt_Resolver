@@ -1,3 +1,9 @@
+body {
+    margin: 0;
+    height: 100vh;
+    place-items: center;
+    
+}
 textarea {
     /* border: none; */
     outline: none; 
@@ -12,7 +18,7 @@ h1 {
 .askQuesDiv {
     width: 50%;
     margin: 0 auto;
-    margin-top: 20vh;
+    margin-top: 10vh;
     border: 10px groove rgb(138, 49, 49);
     height: 40vh;
 }
@@ -44,7 +50,7 @@ h1 {
 .outerDivForQuestions {
     width: 50%;
     margin: 0 auto;
-    margin-top: 6em;
+    margin-top: 10vh;
     border: 0.5rem groove rgb(138, 49, 49);
 }
 
@@ -92,7 +98,7 @@ h1 {
 
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: rgb(252, 178, 191);
-    font-size: 1em;
+    font-size: 1rem;
   }
 
 .ans_button,
@@ -135,4 +141,71 @@ h1 {
     margin-left: 4rem;
     border-left: 2px solid #dee0e1;
     padding-left: 1rem;
+}
+
+/*  navbar section */
+
+.outerMostDivForNav {
+    height: 10vh;
+    background-color: rgb(245, 241, 241);
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem auto;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.leftNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.companyName {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.homeButton {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.middleNav {
+    display: flex;
+    align-items: center;
+}
+
+.searchBarWrap {
+    display: flex;
+    align-items: center;
+    background-color: #eff2f5;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: 1px solid #dee0e1;
+    /* padding-left: 1rem; */
+    /* border-radius: 2rem; */
+}
+
+#searchIcon {
+    padding: 0 0.5rem;
+}
+
+#searchBarId {
+    height: 4vh;
+    width: 25vw;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.rightNav {
+    display: flex;
+    align-items: center;
+}
+
+.profileButton {
+    border: none;
+    background: none;
+    cursor: pointer;
 }
