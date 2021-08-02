@@ -15,10 +15,11 @@
             </div>
             <form action="/signUp", method="POST" class="signUpForm">
                 <div class="formDiv">
-                    <label for="name">Name</label>
+                    <label for="username">Name</label>
                     <input 
                         type="text" 
                         class="inputEle" 
+                        id="username"
                         name="username" 
                         placeholder="Username..."
                         value="<%= typeof username != 'undefined' ? username : ''%>"
@@ -27,7 +28,8 @@
                 <div class="formDiv">
                     <label for="email">Email Id</label>
                     <input type="text" 
-                        class="inputEle"  
+                        class="inputEle" 
+                        id="email" 
                         name="email" 
                         placeholder="Email..."
                         value="<%= typeof email != 'undefined' ? email : ''%>"
@@ -45,7 +47,7 @@
                     >
                 </div>
                 <div class="formDiv">
-                    <label for="confirmPass">Confirm Password</label>
+                    <label for="confirm_password">Confirm Password</label>
                     <input 
                         type="password"  
                         id="confirm_password" 
@@ -55,7 +57,6 @@
                         value="<%= typeof confirmPass != 'undefined' ? confirmPass : ''%>"
                     >
                 </div>
-                <br>
                 <button type="submit" class="signUpButton" name="signUpButton">SignUp</button>
     
             </form>

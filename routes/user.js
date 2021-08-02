@@ -91,14 +91,12 @@ router.post('/signUp', async (req, res) => {
     }
 })
 
-// router.get('/login',(req, res) => {
-//     res.render('login');
-// })
-const middle = (req, res, next) => {
-    console.log("inside middle");
-    next();
-}
-router.post('/login', middle, passport.authenticate('local',{
+router.get('/login',(req, res) => {
+    res.render('login');
+})
+
+
+router.post('/login', passport.authenticate('local',{
         successReturnToOrRedirect: '/',
         failureRedirect: '/',
         failureFlash: false // this is to set flash message
