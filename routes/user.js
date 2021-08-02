@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../database/models/user');
+const passport = require('../authentication/passportAuth');
 
 router.get('/signUp', (req, res) => {
     res.render('signUp');
@@ -9,7 +10,7 @@ router.get('/signUp', (req, res) => {
 
 
 router.post('/signUp', async (req, res) => {
-    const {name, email, password, confirmPass} = req.body;
+    const {username, email, password, confirmPass} = req.body;
     let errors = [];
     if(!username || ! email || !password || !confirmPass){
         errors.push({msg : "Please enter all the fields"})
@@ -24,7 +25,15 @@ router.post('/signUp', async (req, res) => {
     }
 
     if(errors.length > 0){
-        res.render('signUp',{
+        // res.render('signUp',{
+        //     errors,
+        //     username,
+        //     email,
+        //     password,
+        //     confirmPass
+        // })
+        console.log("done1")
+        res.json({
             errors,
             username,
             email,
@@ -36,8 +45,16 @@ router.post('/signUp', async (req, res) => {
             const user = await User.findOne({ email: email});
             if(user){
                 errors.push({msg : "email iD already exist"});
-                res.render('signUp',{
-                    errors, name, email, password, confirmPass
+                // res.render('signUp',{
+                //     errors, username, email, password, confirmPass
+                // })
+                console.log("done2")
+                res.json({
+                    errors,
+                    username,
+                    email,
+                    password,
+                    confirmPass
                 })
             }else{
                 const newUser = new User({
@@ -46,15 +63,46 @@ router.post('/signUp', async (req, res) => {
                     "password": password
                 })
                 await newUser.save();
-                res.redirect('/login')
+                // res.redirect('/login')
+                console.log("done signup");
+                res.json({
+                    errors,
+                    username,
+                    email,
+                    password,
+                    confirmPass
+                })
             }
 
         } catch(err){
+            console.log(err)
             errors.push(err);
-            res.render('signUp',{
-                errors, name, email, password, confirmPass
+            // res.render('signUp',{
+            //     errors, username, email, password, confirmPass
+            // })
+            res.json({
+                errors,
+                username,
+                email,
+                password,
+                confirmPass
             })
         }
     }
 })
 
+// router.get('/login',(req, res) => {
+//     res.render('login');
+// })
+const middle = (req, res, next) => {
+    console.log("inside middle");
+    next();
+}
+router.post('/login', middle, passport.authenticate('local',{
+        successReturnToOrRedirect: '/',
+        failureRedirect: '/',
+        failureFlash: false // this is to set flash message
+    })
+)
+
+module.exports = router;

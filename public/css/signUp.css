@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    height: 100vh;
+    place-items: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #fff;
+}
+
+label {
+    cursor: default;
+    font-weight: bold;
+}
+
+.outerMostDivForSignUp {
+    display: flex;
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.middleDivForSignUp {
+    /* background-color: rgb(219, 207, 207); */
+    display: flex;
+    align-items: center;
+}
+
+.signUpFinalDiv {
+    margin: 0 1em;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.signUpHeading span {
+    margin-right: 0.5em
+}
+
+.signUpHeading {
+    font-size: 1.5em;
+}
+
+
+.signUpForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.formDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    margin: 0.5em 0;
+}
+
+.inputEle {
+    width: 30em;
+    height: 2.5em;
+    border: 1px solid #ccc;
+    border-radius: 0.4em;
+    margin: 0.5em 0;
+    padding: 0 0.5em;
+    outline: none;
+    font-size: 0.9em;
+    font-weight: 400;
+}
+
+.signUpButton {
+    outline: none;
+    border: none;
+    height: 2em;
+    font-size: inherit;
+    font-weight: bolder;
+    background-color: rgb(243, 241, 241);
+    color: rgb(252, 178, 191);
+    cursor: pointer;
+}
+
+.message {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 0.4em; 
+}
+
+.message h1 {
+    font-size: 1.5em;
+}
+
+.crossButton{
+    background: none;
+    cursor: pointer;
+    border: none;
+}
+
+
