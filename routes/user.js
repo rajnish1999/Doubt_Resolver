@@ -8,33 +8,27 @@ router.get('/signUp', (req, res) => {
     res.render('signUp');
 })
 
-
 router.post('/signUp', async (req, res) => {
     const {username, email, password, confirmPass} = req.body;
-    let errors = [];
+    let flag=false;
     if(!username || ! email || !password || !confirmPass){
-        errors.push({msg : "Please enter all the fields"})
+        req.flash('message', 'Please enter all the fields');
+        flag=true;
     }
 
-    if(password.length < 6){
-        errors.push({msg : "password should be atleast 6 in length"})
+    else if(password.length < 6){
+        req.flash('message', 'Password minimum length allowed is 6');
+        flag=true;
     }
 
-    if(password != confirmPass){
-        errors.push({msg : 'Passwords do not match'})
+    else if(password != confirmPass){
+        req.flash('message', 'Passwords do not match');
+        flag=true;
     }
 
-    if(errors.length > 0){
-        // res.render('signUp',{
-        //     errors,
-        //     username,
-        //     email,
-        //     password,
-        //     confirmPass
-        // })
-        console.log("done1")
-        res.json({
-            errors,
+    if(flag){
+        res.render('signUp',{
+            message: req.flash('message'),
             username,
             email,
             password,
@@ -44,62 +38,46 @@ router.post('/signUp', async (req, res) => {
         try {
             const user = await User.findOne({ email: email});
             if(user){
-                errors.push({msg : "email iD already exist"});
-                // res.render('signUp',{
-                //     errors, username, email, password, confirmPass
-                // })
                 console.log("done2")
-                res.json({
-                    errors,
-                    username,
-                    email,
-                    password,
-                    confirmPass
+                req.flash('message', 'Email iD already exist');
+                res.render('signUp',{
+                    message : req.flash('message'), 
+                    username, email, password, confirmPass
                 })
             }else{
+                console.log("done3")
                 const newUser = new User({
                     "username": username,
                     "email": email,
                     "password": password
                 })
                 await newUser.save();
-                // res.redirect('/login')
-                console.log("done signup");
-                res.json({
-                    errors,
-                    username,
-                    email,
-                    password,
-                    confirmPass
-                })
+                req.flash('message' , 'You are now registered and can log in');
+                res.redirect('/login');
             }
 
         } catch(err){
             console.log(err)
-            errors.push(err);
+            throw err;
             // res.render('signUp',{
             //     errors, username, email, password, confirmPass
             // })
-            res.json({
-                errors,
-                username,
-                email,
-                password,
-                confirmPass
-            })
         }
     }
 })
 
 router.get('/login',(req, res) => {
-    res.render('login');
+    res.render('login', {
+        error: req.flash('error'),
+        message: req.flash('message')
+    });
 })
 
 
 router.post('/login', passport.authenticate('local',{
         successReturnToOrRedirect: '/',
-        failureRedirect: '/',
-        failureFlash: false // this is to set flash message
+        failureRedirect: '/login',
+        failureFlash: true // this is to set flash message
     })
 )
 

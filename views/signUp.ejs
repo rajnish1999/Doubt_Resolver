@@ -4,15 +4,17 @@
     <div class="middleDivForSignUp">
         <div class="signUpFinalDiv">
             <p class="signUpHeading"><span><i class="fas fa-sign-in-alt fa-lg"></i></span>Add User</p>
-            <div class="message">
-                <h1>email does not match</h1>
-                <button 
-                class="crossButton"
-                onClick="hide()"
-                >
-                <i class="far fa-times fa-2x"></i>
-                </button>
-            </div>
+            <% if(typeof message != 'undefined') {%>
+                <div class="message">
+                    <h3><%= message %></h3>
+                    <button 
+                    class="crossButton"
+                    onClick="hide()"
+                    >
+                    <i class="far fa-times fa-2x"></i>
+                    </button>
+                </div>
+            <%}%>
             <form action="/signUp", method="POST" class="signUpForm">
                 <div class="formDiv">
                     <label for="username">Name</label>

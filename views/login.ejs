@@ -4,15 +4,18 @@
     <div class="middleDivForLogin">
         <div class="loginFinalDiv">
             <p class="loginHeading"><span><i class="fas fa-sign-in-alt fa-lg"></i></span>Login</p>
-            <div class="message">
-                <h1>email does not match</h1>
-                <button 
-                class="crossButton"
-                onClick="hide()"
-                >
-                <i class="far fa-times fa-2x"></i>
-                </button>
-            </div>
+            <% if((typeof message != 'undefined' && message.length > 0) || (typeof error != 'undefined' && error.length > 0)) {%>
+                <%= console.log(message+" "+"nejfn"+error) %>
+                <div class="message" style="color: pink;">
+                    <h3><%= message.length > 0 ? message : error %></h3>
+                    <button 
+                    class="crossButton"
+                    onClick="hide()"
+                    >
+                    <i class="far fa-times fa-2x"></i>
+                    </button>
+                </div>
+            <%}%>
             <form action="/login", method="POST" class="loginForm">
                 <div class="formDiv">
                     <label for="email">Email Id</label>

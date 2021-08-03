@@ -35,14 +35,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req,res, next) => {
-//     console.log(req);
-//     next();
-// })
+app.use((req,res, next) => {
+    console.log(req.session);
+    console.log(req.isUnauthenticated());
+    next();
+})
 app.use(flash());
 
 app.get('/', async (req, res) => {
-    console.log(req.user)
+    // delete req.session;
+    console.log(req.session)
     let questionArr = await Question.find({})
     let answerArr = await Answer.find({})
     let commentArr = await Comment.find({})
