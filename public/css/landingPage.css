@@ -2,6 +2,7 @@ body {
     margin: 0;
     height: 100vh;
     place-items: center;
+    /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
     
 }
 textarea {
@@ -9,10 +10,15 @@ textarea {
     outline: none; 
     resize: none;
     font-size: 1rem;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;;
 }
 
 h1 {
-    font-size: 2rem
+    font-size: 2rem;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+h2{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .askQuesDiv {
@@ -21,11 +27,13 @@ h1 {
     margin-top: 10vh;
     border: 10px groove rgb(138, 49, 49);
     height: 40vh;
+    
 }
 
 .askQuesDiv h1 {
     margin: 0 auto;
     text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
    
 }
 
@@ -68,6 +76,51 @@ h1 {
 
 .divShowingAnswer {
     border-top: 1px solid #dee0e1;
+    display: flex;
+    flex-direction: column;
+}
+
+.userInfo {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.userDP {
+    margin-right: 0.5em;
+}
+
+.nameAndDate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.userNameAnswer,
+.userDateAnswer {
+    font-size: 1em;
+    font-weight: bold;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.userNameComment,
+.userDateComment {
+    font-size: 0.8em;
+    font-weight: bold;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.userImage {
+    width: 3.1em;
+    height: 3.1em;
+    border-radius: 50%;
+}
+
+.userImageComment {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
 }
 
 .divToWriteAns,

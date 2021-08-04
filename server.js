@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const session = require('express-session');
 const flash = require('connect-flash');
+const moment = require('moment')
 require('dotenv').config()
 
 require('./database/db')
@@ -29,7 +30,11 @@ app.use(
     session({
         secret: 'secret',
         resave: true,
-        saveUninitialized: true
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 24 * 60 * 60
+        },
+        maxAge: Date.now() + (30 * 86400 * 1000)
     })
 );
 
@@ -41,13 +46,34 @@ app.use(flash());
 app.get('/', isAuth, async (req, res) => {
     // delete req.session;
     // console.log(req.session)
+    // if(req.session.viewCount){
+    //     req.session.viewCount++;
+    // }else{
+    //     req.session.viewCount = 1
+    // }
     let questionArr = await Question.find({})
     let answerArr = await Answer.find({})
     let commentArr = await Comment.find({})
+    const newQuesArr = questionArr.map((question) => {
+        let newObj = question.toObject();
+        newObj.dateAndTime = moment(question.createdAt).format("LLL")
+        return newObj;
+    })
+    const newAnsArr = answerArr.map((ans) => {
+        let newObj = ans.toObject();
+        newObj.dateAndTime = moment(ans.createdAt).format("LLL")
+        return newObj;
+    })
+    const newCommentArr = commentArr.map((comment) => {
+        let newObj = comment.toObject();
+        newObj.dateAndTime = moment(comment.createdAt).format("LLL")
+        return newObj;
+    })
     res.render('landingPage', {
-        questionArr,
-        answerArr,
-        commentArr
+        // viewCount: req.session.viewCount,
+        questionArr: newQuesArr,
+        answerArr: newAnsArr,
+        commentArr: newCommentArr
     })
 })
 
@@ -61,3 +87,5 @@ const port = process.env.PORT || 5000
 app.listen(port, (res) => {
     console.log(`Server is running at http://localhost:${port}`);
 })
+
+

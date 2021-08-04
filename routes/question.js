@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const Question = require('../database/models/question')
-const Answer = require('../database/models/answer')
-const Comment = require('../database/models/comment')
 const isAuth = require('./authMiddleware');
 
 router.post('/addQuestion', isAuth, async (req, res) => {
@@ -15,15 +13,7 @@ router.post('/addQuestion', isAuth, async (req, res) => {
     })
     const data = await newQuestion.save()
 
-    let questionArr = await Question.find({})
-    let answerArr = await Answer.find({})
-    let commentArr = await Comment.find({})
-    
-    res.render('landingPage', {
-        questionArr,
-        answerArr,
-        commentArr
-    })
+    res.redirect('/');
 })
 
 module.exports = router;

@@ -20,6 +20,17 @@ const QuestionSchema = new Schema({
     }
 }, { timestamps: true })
 
+// QuestionSchema.methods.toJSON = function() {
+//     const question = this
+//     console.log("inside toJSON");
+//     const qObject = question.toObject();
+    
+//     qObject.qDateAndTime = moment(qObject.createdAt).format('LLL')
+//     console.log(qObject);
+//     return qObject
+    
+// }
+
 const Question = model('Question', QuestionSchema)
 
 module.exports = Question

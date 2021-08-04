@@ -8,8 +8,10 @@
             <button class="ques_button" type="submit">Add Question</button>
         </form>
     </div>
+
+    
     <% for(let i=0;i< questionArr.length;i++) { %>
-        
+        <%= console.log(questionArr[i].toString()) %>
         <div class="outerDivForQuestions">
             <div class="divShowingQuestion">
                 <h1><%= questionArr[i].description %></h1>
@@ -28,11 +30,23 @@
                 <input type="hidden" name="question" value="<%= questionArr[i]._id %>" />
             </form>
 
-            <div id="seeAllAns-<%= i %>" style="display:none">
+            <div class="seeAllAns" id="seeAllAns-<%= i %>" style="display:none">
                 
                 <% for(let j=0;j< answerArr.length;j++) { %>
                     <% if(answerArr[j].question.toString() === questionArr[i]._id.toString()) {%>   
                         <div class="divShowingAnswer">
+                            <div class="userInfo">
+                                <div class="userDP">
+                                    <%# <i class="fad fa-smile fa-2x"></i> %>
+                                    <img src="http://localhost:5000/profile/avatar/<%= answerArr[j].creator %>" alt="" class="userImage">
+                                </div>
+                                <div class="nameAndDate">
+                                    <div class="userNameAnswer">Rajnish Tiwari</div>
+                                    <div class="userDateAnswer">
+                                        <%= answerArr[j].dateAndTime%>
+                                    </div>
+                                </div>
+                            </div>
                             <h2><%= answerArr[j].answerText %></h2>
                             <div class="answerOptions">
                                 <div class="upAndDownVote">
@@ -46,6 +60,7 @@
                         <form method="POST" action="/addComment" class="divToWriteComment">
                             <textarea name="comment" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
                             <button  class="comment_button" type="submit">Add Comment</button>
+                            <input type="hidden" name="question" value="<%= questionArr[i]._id %>" />
                             <input type="hidden" name="answer" value="<%= answerArr[j]._id %>" />
                         </form>
                         <div id="seeAllComment-<%= j %>" style="display:none">
@@ -53,6 +68,15 @@
                             <% for(let k=0;k< commentArr.length;k++) { %>
                                 <% if(commentArr[k].answer.toString() === answerArr[j]._id.toString()) {%>   
                                     <div class="divShowingComment">
+                                        <div class="userInfo">
+                                            <div class="userDP">
+                                                <img src="http://localhost:5000/profile/avatar/<%= commentArr[k].creator %>" alt="" class="userImageComment">
+                                            </div>
+                                            <div class="nameAndDate">
+                                                <div class="userNameComment">Rajnish Tiwari</div>
+                                                <div class="userDateComment"><%= commentArr[k].dateAndTime%></div>
+                                            </div>
+                                        </div>
                                         <h2><%= commentArr[k].commentText %></h2>
                                         <div class="commentOptions">
                                             <div class="upAndDownVote">
@@ -95,8 +119,6 @@
             commentOfAns.style.display = 'none'
         }
     }
-
-   
 
 </script>
 
