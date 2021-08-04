@@ -4,8 +4,9 @@ const router = express.Router();
 const Question = require('../database/models/question')
 const Answer = require('../database/models/answer')
 const Comment = require('../database/models/comment')
+const isAuth = require('./authMiddleware');
 
-router.post('/addComment', async (req, res) => {
+router.post('/addComment', isAuth, async (req, res) => {
     const { comment:newComment, answer } = req.body;
 
     const comment = new Comment({

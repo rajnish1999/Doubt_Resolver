@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
 const User = require('../database/models/user');
 const passport = require('../authentication/passportAuth');
+const isAuth = require('./authMiddleware');
 
 router.get('/signUp', (req, res) => {
     res.render('signUp');
@@ -80,5 +82,38 @@ router.post('/login', passport.authenticate('local',{
         failureFlash: true // this is to set flash message
     })
 )
+
+const upload = multer({
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if(!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image'))
+        }
+
+        cb(undefined, true)
+    }
+})
+
+router.get('/profile', isAuth, (req, res) => {
+    res.render('profile')
+})
+
+router.post('/profile', upload.single('avatar'), async (req, res) => {
+    req.user.avatar = req.file.buffer
+    await req.user.save();
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
+})
+
+router.get('/profile/avatar', isAuth, async (req, res) => {
+    try { 
+        res.set('Content-Type', 'image/jpg')
+        res.send(req.user.avatar)
+    } catch (e) {
+        res.status(404).send()
+    }
+})
 
 module.exports = router;

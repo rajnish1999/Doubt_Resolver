@@ -6,11 +6,7 @@ const Answer = require('../database/models/answer')
 const Comment = require('../database/models/comment')
 const isAuth = require('./authMiddleware');
 
-router.get('/answers', isAuth, (req, res)=>{
-    res.send("hello")
-})
-
-router.post('/addAnswer', async (req, res) => {
+router.post('/addAnswer', isAuth, async (req, res) => {
     const { ans:newAns, question } = req.body;
     console.log(req.body);
 

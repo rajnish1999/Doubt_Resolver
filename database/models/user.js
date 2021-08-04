@@ -28,6 +28,9 @@ const UserSchema = new Schema({
                 throw new Error('Password should not have term password')
             }
         }
+    },
+    avatar:{
+        type: 'Buffer'
     }
 }, { 
     timestamps: true 

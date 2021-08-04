@@ -5,6 +5,7 @@ const flash = require('connect-flash');
 require('dotenv').config()
 
 require('./database/db')
+const isAuth = require('./routes/authMiddleware');
 const User = require('./database/models/user')
 const Question = require('./database/models/question')
 const Answer = require('./database/models/answer')
@@ -35,16 +36,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req,res, next) => {
-    console.log(req.session);
-    console.log(req.isUnauthenticated());
-    next();
-})
 app.use(flash());
 
-app.get('/', async (req, res) => {
+app.get('/', isAuth, async (req, res) => {
     // delete req.session;
-    console.log(req.session)
+    // console.log(req.session)
     let questionArr = await Question.find({})
     let answerArr = await Answer.find({})
     let commentArr = await Comment.find({})
