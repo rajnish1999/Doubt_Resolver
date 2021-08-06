@@ -5,6 +5,7 @@ body {
     /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
     
 }
+
 textarea {
     /* border: none; */
     outline: none; 
@@ -194,11 +195,16 @@ h2{
 
 .questionOptions,
 .answerOptions,
-.commentOptions {
+.commentOptions,
+.subCommentOptions {
     display: flex !important;
     justify-content: space-between;
     margin: 0.5em 0em;
     padding: 0.5em;
+}
+
+.subCommentOptions {
+    padding-left: 0;
 }
 
 
@@ -207,15 +213,17 @@ h2{
     justify-content: space-between;
 }
 
-.buttonForUp{
-    margin-right: 1rem
+.buttonForUp,
+.buttonForDown {
+    margin-right: 1em
 }
+
 
 /* comment section */
 
 .divShowingComment {
-    margin-left: 4rem;
+    margin-left: 4em;
     border-left: 2px solid #dee0e1;
-    padding-left: 1rem;
+    padding-left: 1em;
 }
 

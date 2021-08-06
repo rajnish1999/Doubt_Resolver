@@ -16,8 +16,8 @@
                 <h1><%= questionArr[i].description %></h1>
                 <div class="questionOptions">
                     <div class="upAndDownVote">
-                        <button class="buttonForUp"><i class="fas fa-thumbs-up"></i></button>
-                        <button class="buttonForDown"><i class="fas fa-thumbs-down"></i></button>
+                        <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
+                        <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
                     </div>
                     <button id="answerToggle-<%= i %>" onClick="toggleAnswer('<%= i %>')">Answers</button>
                 </div>
@@ -49,8 +49,8 @@
                             <h2><%= answerArr[j].answerText %></h2>
                             <div class="answerOptions">
                                 <div class="upAndDownVote">
-                                    <button class="buttonForUp"><i class="fas fa-thumbs-up"></i></button>
-                                    <button class="buttonForDown"><i class="fas fa-thumbs-down"></i></button>
+                                    <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
+                                    <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
                                 </div>
                                 <button id="commentToggle-<%= j %>" onClick="toggleComment('<%= j %>')">Comments</button>
                             </div>
@@ -79,8 +79,8 @@
                                         <h2><%= commentArr[k].commentText %></h2>
                                         <div class="commentOptions">
                                             <div class="upAndDownVote">
-                                                <button class="buttonForUp"><i class="fas fa-thumbs-up"></i></button>
-                                                <button class="buttonForDown"><i class="fas fa-thumbs-down"></i></button>
+                                                <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
+                                                <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
                                                 <button 
                                                     id="nestedCom-<%= commentArr[k]._id %>" 
                                                     onClick="addNestedCom('<%= JSON.stringify(commentArr[k]) %>')"
@@ -140,11 +140,66 @@
         while(queue.length > 0) {
             let tempEle = queue.shift();
             if(k > 0){
+
+                let outerDivForSubCommentOptions = document.createElement('div');
+                let optionsOfSubComponents = document.createElement('div');
+                let newButtonForUp = document.createElement('button');
+                let newButtonForDown = document.createElement('button');
+                let newButtonForReply = document.createElement('button');
+                let newIForUp = document.createElement('i');
+                let newIForDown = document.createElement('i');
+                let newIForReply = document.createElement('i');
+
+                outerDivForSubCommentOptions.appendChild(optionsOfSubComponents);
+                optionsOfSubComponents.appendChild(newButtonForUp);
+                optionsOfSubComponents.appendChild(newButtonForDown);
+                optionsOfSubComponents.appendChild(newButtonForReply);
+                newButtonForUp.appendChild(newIForUp);
+                newButtonForDown.appendChild(newIForDown);
+                newButtonForReply.appendChild(newIForReply);
+
+                outerDivForSubCommentOptions.className = "subCommentOptions"
+                optionsOfSubComponents.className = "upAndDownVote";
+                newButtonForUp.className = "buttonForUp"
+                newButtonForDown.className = "buttonForDown"
+                newIForUp.className = "fal fa-thumbs-up fa-2x";
+                newIForDown.className = "fal fa-thumbs-down fa-2x";
+                newIForReply.className = "fal fa-reply fa-2x";
+
+                
+                let newOuterDivForUserDetail = document.createElement("div");
+                let newDivForUserDP = document.createElement("div");
+                let newDivForDateAndName = document.createElement("div");
+                let newDivForName = document.createElement("div");
+                let newDivForDate = document.createElement("div");
+                let imageTagForUser = document.createElement("img");
+
+                newDivForUserDP.appendChild(imageTagForUser);
+                newDivForDateAndName.appendChild(newDivForName);
+                newDivForDateAndName.appendChild(newDivForDate);
+                newOuterDivForUserDetail.appendChild(newDivForUserDP)
+                newOuterDivForUserDetail.appendChild(newDivForDateAndName)
+
+                newOuterDivForUserDetail.className = "userInfo";
+                newDivForUserDP.className = "userDP";
+                newDivForDateAndName.className = "nameAndDate";
+                
+                newDivForName.className = "userNameComment";
+                newDivForDate.className = "userDateComment"
+                imageTagForUser.src = `http://localhost:5000/profile/avatar/${tempEle.creator}`;
+                imageTagForUser.className = "userImageComment";
+
+                newDivForName.innerHTML = "Rajnish Tiwari";
+                newDivForDate.innerHTML = `${tempEle.dateAndTime}`
+                
+
                 let newEle= document.createElement("div")
                 let newComEle= document.createElement("div")
                 newComEle.innerHTML = tempEle.commentText;
-                newComEle.style.cssText="margin-bottom: 1em;"
+                newComEle.style.cssText="margin: 1em 0;"
+                newEle.appendChild(newOuterDivForUserDetail);
                 newEle.appendChild(newComEle);
+                newEle.appendChild(outerDivForSubCommentOptions);
                 newEle.setAttribute("id",`${tempEle._id}`)
                 newEle.style.cssText="padding: 1em;border-left: 2px solid #dee0e1;margin-left:1em"
                 let parentEle = document.getElementById(`${tempEle.parentComment}`)
