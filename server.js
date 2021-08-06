@@ -67,8 +67,11 @@ app.get('/', isAuth, async (req, res) => {
     const newCommentArr = commentArr.map((comment) => {
         let newObj = comment.toObject();
         newObj.dateAndTime = moment(comment.createdAt).format("LLL")
+        
         return newObj;
     })
+    console.log(typeof newCommentArr);
+
     res.render('landingPage', {
         // viewCount: req.session.viewCount,
         questionArr: newQuesArr,
