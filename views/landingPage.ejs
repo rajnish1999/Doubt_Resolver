@@ -82,13 +82,17 @@
                                                 <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
                                                 <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
                                                 <button 
-                                                    id="nestedCom-<%= commentArr[k]._id %>" 
-                                                    onClick="addNestedCom('<%= JSON.stringify(commentArr[k]) %>')"
-                                                >
+                                                    onClick="toggleAddSubComment('<%= commentArr[k]._id %>')"
+                                                    >
                                                     <i class="fal fa-reply fa-2x"></i>
                                                 </button>
                                             </div>
                                         </div>
+                                        <form method="POST" action="/addComment" id="nestedCom-<%= commentArr[k]._id %>"  class="divToWriteSubComment">
+                                            <textarea name="comment" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
+                                            <button  class="comment_button" type="submit">Add Comment</button>
+                                            <input type="hidden" name="parent" value="<%= answerArr[j]._id %>" />
+                                        </form>
                                     </div>
                                 <% } %>
                             <% } %>
@@ -107,7 +111,6 @@
         const ansOfQ = document.getElementById(`seeAllAns-${i}`);
 
         if(ansOfQ.style.display === 'none'){
-            
             ansOfQ.style.display = 'block'
         }else{
             ansOfQ.style.display = 'none'
@@ -118,22 +121,34 @@
         const commentOfAns = document.getElementById(`seeAllComment-${j}`);
         
         if(commentOfAns.style.display === 'none'){
-            
             commentOfAns.style.display = 'block'
         }else{
             commentOfAns.style.display = 'none'
         }
     }
 
+   const toggleAddSubComment = (id) => {
+       const subComOfCom = document.getElementById(`nestedCom-${id}`);
+
+       if(subComOfCom.style.display == 'none'){
+           subComOfCom.style.display = 'flex'
+       }else{
+           subComOfCom.style.display = 'none'
+       }
+   }
+
     
     let tempComment = '<%- JSON.stringify(commentArr) %>'
-    let tempAnswer = '<%- JSON.stringify(commentArr) %>'
+    // let tempAnswer = '<%- JSON.stringify(commentArr) %>'
     let arrComment = JSON.parse(tempComment);
     let newCommentArr = arrComment.filter((comment) => typeof comment.answer == 'undefined')
-    let arrAnswer = JSON.parse(tempAnswer);
+
+    
+
+    // let arrAnswer = JSON.parse(tempAnswer);
 
     const addNestedCom = (obj) => {
-        const parsedObj = JSON.parse(obj)
+        const parsedObj = obj;
         const queue = [];
         queue.push(parsedObj);
         let k = 0;
@@ -141,6 +156,32 @@
             let tempEle = queue.shift();
             if(k > 0){
 
+                let formForSubComment = document.createElement("form");
+                let textareaForSubComment = document.createElement("textarea");
+                let submitForSubComment = document.createElement("button");
+                let inputForParentSubComment = document.createElement("input");
+
+                formForSubComment.appendChild(textareaForSubComment);
+                formForSubComment.appendChild(submitForSubComment);
+                formForSubComment.appendChild(inputForParentSubComment);
+                
+                formForSubComment.setAttribute("action", "/addComment");
+                formForSubComment.setAttribute("method", "POST");
+                formForSubComment.className = "divToWriteSubComment"
+                formForSubComment.setAttribute("id",`nestedCom-${tempEle._id}`)
+                textareaForSubComment.setAttribute("name", "comment");
+                textareaForSubComment.setAttribute("type", "text");
+                textareaForSubComment.setAttribute("rows", "1");
+                textareaForSubComment.setAttribute("placeholder", "Add a comment...");
+                textareaForSubComment.className = "commentInput";
+                submitForSubComment.setAttribute("type", "submit");
+                submitForSubComment.className = "comment_button"
+                submitForSubComment.innerHTML = "Add Comment";
+                inputForParentSubComment.setAttribute("type", "hidden");
+                inputForParentSubComment.setAttribute("name", "parent");
+                inputForParentSubComment.setAttribute("value", `${tempEle._id}`);
+
+                // below is the options part
                 let outerDivForSubCommentOptions = document.createElement('div');
                 let optionsOfSubComponents = document.createElement('div');
                 let newButtonForUp = document.createElement('button');
@@ -162,11 +203,14 @@
                 optionsOfSubComponents.className = "upAndDownVote";
                 newButtonForUp.className = "buttonForUp"
                 newButtonForDown.className = "buttonForDown"
+                newButtonForReply.addEventListener('click', function(e) {
+                    toggleAddSubComment(`${tempEle._id}`)
+                })
                 newIForUp.className = "fal fa-thumbs-up fa-2x";
                 newIForDown.className = "fal fa-thumbs-down fa-2x";
                 newIForReply.className = "fal fa-reply fa-2x";
 
-                
+                // below is the user info part
                 let newOuterDivForUserDetail = document.createElement("div");
                 let newDivForUserDP = document.createElement("div");
                 let newDivForDateAndName = document.createElement("div");
@@ -192,7 +236,7 @@
                 newDivForName.innerHTML = "Rajnish Tiwari";
                 newDivForDate.innerHTML = `${tempEle.dateAndTime}`
                 
-
+                //final part, where final div is constructed adding all children together
                 let newEle= document.createElement("div")
                 let newComEle= document.createElement("div")
                 newComEle.innerHTML = tempEle.commentText;
@@ -200,6 +244,7 @@
                 newEle.appendChild(newOuterDivForUserDetail);
                 newEle.appendChild(newComEle);
                 newEle.appendChild(outerDivForSubCommentOptions);
+                newEle.appendChild(formForSubComment);
                 newEle.setAttribute("id",`${tempEle._id}`)
                 newEle.style.cssText="padding: 1em;border-left: 2px solid #dee0e1;margin-left:1em"
                 let parentEle = document.getElementById(`${tempEle.parentComment}`)
@@ -214,7 +259,13 @@
             k++;
         }
     }
+    arrComment.forEach((comment) => {
+        if(typeof comment.answer != 'undefined'){
+            addNestedCom(comment)
+        }
+    })
 
 </script>
 
 <%- include('partials/footer.ejs') %>
+inputForQuestionSubComment.setAttribute("type", "hidden")

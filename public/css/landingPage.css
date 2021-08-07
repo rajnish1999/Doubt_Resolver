@@ -147,17 +147,22 @@ h2{
 }
 
 .divToWriteAns,
-.divToWriteComment {
+.divToWriteComment,
+.divToWriteSubComment {
     display: flex;
     justify-content: space-between;
     margin: 2em;
     margin-top: 1em;
     align-items: center;
     background-color: #eff2f5;
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
     padding-left: 1rem;
     border-radius: 2rem;
     
+}
+
+.divToWriteSubComment{
+    margin-left: 0
 }
 
 .ansInput,
