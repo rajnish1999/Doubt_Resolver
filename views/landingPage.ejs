@@ -1,5 +1,4 @@
 <%- include('partials/header.ejs') %>
-
 <div class="outerMostDiv">
     <div class="askQuesDiv">
         <h1 class="heading_question">Ask your doubt!!</h1>
@@ -36,11 +35,10 @@
                         <div class="divShowingAnswer">
                             <div class="userInfo">
                                 <div class="userDP">
-                                    <%# <i class="fad fa-smile fa-2x"></i> %>
-                                    <img src="http://localhost:5000/profile/avatar/<%= answerArr[j].creator %>" alt="" class="userImage">
+                                    <img src="http://localhost:5000/profile/avatar/<%= answerArr[j].creator._id %>" alt="" class="userImage">
                                 </div>
                                 <div class="nameAndDate">
-                                    <div class="userNameAnswer">Rajnish Tiwari</div>
+                                    <div class="userNameAnswer"><%= answerArr[j].creator.username %></div>
                                     <div class="userDateAnswer">
                                         <%= answerArr[j].dateAndTime%>
                                     </div>
@@ -69,10 +67,10 @@
                                     <div class="divShowingComment" id="<%= commentArr[k]._id %>">
                                         <div class="userInfo">
                                             <div class="userDP">
-                                                <img src="http://localhost:5000/profile/avatar/<%= commentArr[k].creator %>" alt="" class="userImageComment">
+                                                <img src="http://localhost:5000/profile/avatar/<%= commentArr[k].creator._id %>" alt="" class="userImageComment">
                                             </div>
                                             <div class="nameAndDate">
-                                                <div class="userNameComment">Rajnish Tiwari</div>
+                                                <div class="userNameComment"><%= answerArr[j].creator.username %></div>
                                                 <div class="userDateComment"><%= commentArr[k].dateAndTime%></div>
                                             </div>
                                         </div>
@@ -143,7 +141,7 @@
     let arrComment = JSON.parse(tempComment);
     let newCommentArr = arrComment.filter((comment) => typeof comment.answer == 'undefined')
 
-    
+    console.log(newCommentArr);
 
     // let arrAnswer = JSON.parse(tempAnswer);
 
@@ -180,7 +178,7 @@
                 inputForParentSubComment.setAttribute("type", "hidden");
                 inputForParentSubComment.setAttribute("name", "parent");
                 inputForParentSubComment.setAttribute("value", `${tempEle._id}`);
-
+                
                 // below is the options part
                 let outerDivForSubCommentOptions = document.createElement('div');
                 let optionsOfSubComponents = document.createElement('div');
@@ -230,10 +228,10 @@
                 
                 newDivForName.className = "userNameComment";
                 newDivForDate.className = "userDateComment"
-                imageTagForUser.src = `http://localhost:5000/profile/avatar/${tempEle.creator}`;
+                imageTagForUser.src = `http://localhost:5000/profile/avatar/${tempEle.creator._id}`;
                 imageTagForUser.className = "userImageComment";
 
-                newDivForName.innerHTML = "Rajnish Tiwari";
+                newDivForName.innerHTML = `${tempEle.creator.username}`;
                 newDivForDate.innerHTML = `${tempEle.dateAndTime}`
                 
                 //final part, where final div is constructed adding all children together
@@ -268,4 +266,3 @@
 </script>
 
 <%- include('partials/footer.ejs') %>
-inputForQuestionSubComment.setAttribute("type", "hidden")

@@ -24,6 +24,7 @@ const AnswerSchema = new Schema({
     }
 },{ timestamps: true })
 
+
 const Answer = model('Answer', AnswerSchema)
 
 module.exports = Answer

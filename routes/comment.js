@@ -10,7 +10,8 @@ router.post('/addComment', isAuth, async (req, res) => {
         const { comment:newComment, parent } = req.body;
         const comment = new Comment({
             "parentComment": parent,
-            "commentText": newComment
+            "commentText": newComment,
+            "creator": req.user._id,
         })
         await comment.save();
     }else {

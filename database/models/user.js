@@ -1,5 +1,6 @@
-const { Schema, model } = require('mongoose')
-const bcrypt = require('bcrypt')
+const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 const UserSchema = new Schema({
     username: {
@@ -30,7 +31,8 @@ const UserSchema = new Schema({
         }
     },
     avatar:{
-        type: 'Buffer'
+        type: 'Buffer',
+        default: fs.readFileSync('./public/images/user/defaultAvatar.jpeg')
     }
 }, { 
     timestamps: true 

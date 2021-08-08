@@ -51,33 +51,67 @@ app.get('/', isAuth, async (req, res) => {
     // }else{
     //     req.session.viewCount = 1
     // }
+    const qFunc = async (question) => {
+        await question.populate({
+            path: 'creator',
+            select: 'username'
+        }).execPopulate()
+        let newObj = question.toObject();
+        newObj.dateAndTime = moment(question.createdAt).format("LLL")
+        
+        return newObj;
+       
+    }
+    const aFunc = async (answer) => {
+        await answer.populate({
+            path: 'creator',
+            select: 'username'
+        }).execPopulate()
+        let newObj = answer.toObject();
+        newObj.dateAndTime = moment(answer.createdAt).format("LLL")
+        // console.log("inside a")
+        return newObj;
+        
+    }
+    const cFunc = async (comment) => {
+        await comment.populate({
+            path: 'creator',
+            select: 'username'
+        }).execPopulate()
+        let newObj = comment.toObject();
+        newObj.dateAndTime = moment(comment.createdAt).format("LLL")
+        // console.log("inside c")
+        return newObj;
+       
+    } 
     let questionArr = await Question.find({})
     let answerArr = await Answer.find({})
     let commentArr = await Comment.find({})
-    const newQuesArr = questionArr.map((question) => {
-        let newObj = question.toObject();
-        newObj.dateAndTime = moment(question.createdAt).format("LLL")
-        return newObj;
-    })
-    const newAnsArr = answerArr.map((ans) => {
-        let newObj = ans.toObject();
-        newObj.dateAndTime = moment(ans.createdAt).format("LLL")
-        return newObj;
-    })
-    const newCommentArr = commentArr.map((comment) => {
-        let newObj = comment.toObject();
-        newObj.dateAndTime = moment(comment.createdAt).format("LLL")
-        
-        return newObj;
-    })
-    console.log(typeof newCommentArr);
 
+    let newQuesArr = [];
+    for(let i=0;i<questionArr.length;i++){
+        let data = await qFunc(questionArr[i]);
+        newQuesArr.push(data);
+    }
+    let newAnsArr = [];
+    for(let i=0;i<answerArr.length;i++){
+        let data = await aFunc(answerArr[i]);
+        newAnsArr.push(data);
+    }
+
+    let newCommentArr = [];
+    for(let i=0;i<commentArr.length;i++){
+        let data = await cFunc(commentArr[i]);
+        newCommentArr.push(data);
+    }
+    // console.log("just before render")
+    // console.log(newAnsArr)
     res.render('landingPage', {
-        // viewCount: req.session.viewCount,
         questionArr: newQuesArr,
         answerArr: newAnsArr,
         commentArr: newCommentArr
     })
+    // res.send("ok")
 })
 
 app.use(quesRoute);
@@ -90,5 +124,3 @@ const port = process.env.PORT || 5000
 app.listen(port, (res) => {
     console.log(`Server is running at http://localhost:${port}`);
 })
-
-

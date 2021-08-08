@@ -121,7 +121,7 @@ router.get('/profile/avatar/:id', isAuth, async (req, res) => {
             throw new Error('user not found')
         }
         res.set('Content-Type', 'image/png')
-    
+        
         res.send(user.avatar)
     
     } catch (e) {
