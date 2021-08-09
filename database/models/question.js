@@ -7,12 +7,16 @@ const QuestionSchema = new Schema({
         trim: true
     },
     upVote: {
-        type: Number,
-        default: 0,
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }]
     },
     downVote: {
-        type: Number,
-        default: 0
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }]
     },
     creator: {
         type: Schema.Types.ObjectId,

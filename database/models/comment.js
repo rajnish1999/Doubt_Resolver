@@ -21,10 +21,16 @@ const CommentSchema = Schema({
         ref: 'Answer'
     },
     upVote: {
-        type: Number,
+        type: [{
+            type: ObjectId,
+            ref: 'User'
+        }],
     },
     downVote: {
-        type: Number
+        type: [{
+            type: ObjectId,
+            ref: 'User'
+        }],
     },
     parentComment: {
         type: ObjectId,
