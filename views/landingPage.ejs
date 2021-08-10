@@ -103,7 +103,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <form method="POST" action="/addComment" id="nestedCom-<%= commentArr[k]._id %>"  class="divToWriteSubComment">
+                                        <form style="display: none" method="POST" action="/addComment" id="nestedCom-<%= commentArr[k]._id %>"  class="divToWriteSubComment">
                                             <textarea name="comment" type="text" class="commentInput" rows="1" placeholder="Add a comment..."></textarea>
                                             <button  class="comment_button" type="submit">Add Comment</button>
                                             <input type="hidden" name="parent" value="<%= answerArr[j]._id %>" />
@@ -407,6 +407,7 @@
                 formForSubComment.setAttribute("method", "POST");
                 formForSubComment.className = "divToWriteSubComment"
                 formForSubComment.setAttribute("id",`nestedCom-${tempEle._id}`)
+                formForSubComment.style.cssText = "display: none";
                 textareaForSubComment.setAttribute("name", "comment");
                 textareaForSubComment.setAttribute("type", "text");
                 textareaForSubComment.setAttribute("rows", "1");
@@ -447,6 +448,8 @@
 
                 outerDivForSubCommentOptions.className = "subCommentOptions"
                 optionsOfSubComponents.className = "upAndDownVote";
+                newOuterDivForUp.className = "divForUp";
+                newOuterDivForDown.className = "divForDown";
                 newButtonForUp.className = "buttonForUp"
                 newButtonForUp.addEventListener("click", function(e){
                     commentUpFunc(`${tempEle._id}`)
@@ -467,7 +470,7 @@
                 newIForUp.setAttribute("id", `icu-${tempEle._id}`)
                 newIForDown.setAttribute("id", `icd-${tempEle._id}`)
                 newIForUp.className = tempEle.isUpVote ? "fad fa-thumbs-up fa-2x" : "fal fa-thumbs-up fa-2x";
-                newIForDown.className = tempEle.isDownVote ? "fad fa-thumbs-up fa-2x" : "fal fa-thumbs-up fa-2x";
+                newIForDown.className = tempEle.isDownVote ? "fad fa-thumbs-down fa-2x" : "fal fa-thumbs-down fa-2x";
                 newIForReply.className = "fal fa-reply fa-2x";
 
                 // below is the user info part
