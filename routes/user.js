@@ -7,9 +7,13 @@ const mongoose = require('mongoose')
 const User = require('../database/models/user');
 const passport = require('../authentication/passportAuth');
 const isAuth = require('./authMiddleware');
+const checkForLogin = require('./loginMiddleware');
 
 router.get('/signUp', (req, res) => {
-    res.render('signUp');
+    console.log("isnide signUp")
+    res.render('signUp',{
+        user: req.user
+    });
 })
 
 router.post('/signUp', async (req, res) => {
@@ -46,7 +50,8 @@ router.post('/signUp', async (req, res) => {
                 req.flash('message', 'Email iD already exist');
                 res.render('signUp',{
                     message : req.flash('message'), 
-                    username, email, password, confirmPass
+                    username, email, password, confirmPass,
+                    user: undefined
                 })
             }else{
                 console.log("done3")
@@ -70,10 +75,12 @@ router.post('/signUp', async (req, res) => {
     }
 })
 
-router.get('/login',(req, res) => {
+
+router.get('/login', checkForLogin, (req, res) => {
     res.render('login', {
         error: req.flash('error'),
-        message: req.flash('message')
+        message: req.flash('message'),
+        user: req.user
     });
 })
 
@@ -84,6 +91,12 @@ router.post('/login', passport.authenticate('local',{
         failureFlash: true // this is to set flash message
     })
 )
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login')
+    res.redirect('/login')
+})
 
 const upload = multer({
     limits: {
@@ -114,7 +127,7 @@ router.post('/profile', upload.single('avatar'), async (req, res) => {
     res.status(400).send({ error: error.message })
 })
 
-router.get('/profile/avatar/:id', isAuth, async (req, res) => {
+router.get('/profile/avatar/:id',  async (req, res) => {
     try { 
         const user = await User.findById(req.params.id)
         if(!user) {

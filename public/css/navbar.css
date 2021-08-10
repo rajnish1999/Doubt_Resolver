@@ -64,7 +64,8 @@ body {
     align-items: center;
 }
 
-.profileButton {
+.logoutButton,
+.loginButton {
     border: none;
     background: none;
     cursor: pointer;

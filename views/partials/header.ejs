@@ -25,7 +25,11 @@
     </div>
     <div class="rightNav">
         <div class="userWrap">
-            <button class="profileButton"><i class="fal fa-user fa-2x"></i></button>
+            <% if(user){ %>
+                <button onclick="location.href='/logout'" class="logoutButton"><i class="fad fa-sign-out-alt fa-2x"></i></button>
+            <% }else { %>
+                <button onclick="location.href='/login'" class="loginButton"><i class="fad fa-sign-in-alt fa-2x"></i></button>
+            <% } %>
         </div>
     </div>
 </div>

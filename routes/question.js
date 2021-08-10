@@ -16,7 +16,7 @@ router.post('/addQuestion', isAuth, async (req, res) => {
     res.redirect('/');
 })
 
-router.post('/question/upVote', async (req, res) => {
+router.post('/question/upVote',isAuth,  async (req, res) => {
     console.log(req.body);
     const questionId = req.body.id;
     let isSame=false;
@@ -47,7 +47,7 @@ router.post('/question/upVote', async (req, res) => {
     }
 })
 
-router.post('/question/downVote', async (req, res) => {
+router.post('/question/downVote',isAuth, async (req, res) => {
     const questionId = req.body.id;
     let isSame = false;
     try {

@@ -226,13 +226,19 @@ h2{
 }
 
 .buttonForUp,
-.buttonForDown {
+.buttonForDown,
+.buttonForReply {
     margin-right: 0.5em;
     border: none;
     background: none;
     padding-left: 0;
     padding-right: 0;
     cursor: pointer;
+}
+
+.buttonForReply {
+    padding-left: 1em;
+    border-left: 1px solid #ccc;
 }
 
 .divForDown {

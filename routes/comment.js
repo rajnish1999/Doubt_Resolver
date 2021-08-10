@@ -27,7 +27,7 @@ router.post('/addComment', isAuth, async (req, res) => {
     res.redirect('/');
 })
 
-router.post('/comment/upVote', async (req, res) => {
+router.post('/comment/upVote',isAuth, async (req, res) => {
     const commentId = req.body.id;
     let isSame = false;
     try {
@@ -59,7 +59,7 @@ router.post('/comment/upVote', async (req, res) => {
     }
 })
 
-router.post('/comment/downVote', async (req, res) => {
+router.post('/comment/downVote',isAuth, async (req, res) => {
     const commentId = req.body.id;
     let isSame = false;
     try {

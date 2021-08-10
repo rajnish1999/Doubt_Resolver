@@ -1,4 +1,5 @@
 <%- include('partials/header.ejs') %>
+
 <div class="outerMostDiv">
     <div class="askQuesDiv">
         <h1 class="heading_question">Ask your doubt!!</h1>
@@ -96,7 +97,8 @@
                                                     <button class="buttonForDown" onClick="commentDownFunc('<%= commentArr[k]._id %>')"><i id="icd-<%=commentArr[k]._id%>" class="<%= commentArr[k].isDownVote ? 'fad' : 'fal' %> fa-thumbs-down fa-2x"></i></button>
                                                     <div id='cd-<%= commentArr[k]._id %>' class="countDown"><%= commentArr[k].downVote.length > 0 ? commentArr[k].downVote.length : '' %></div>
                                                 </div>
-                                                <button 
+                                                <button
+                                                    class="buttonForReply" 
                                                     onClick="toggleAddSubComment('<%= commentArr[k]._id %>')"
                                                     >
                                                     <i class="fal fa-reply fa-2x"></i>
@@ -461,6 +463,7 @@
                 newButtonForReply.addEventListener('click', function(e) {
                     toggleAddSubComment(`${tempEle._id}`)
                 })
+                newButtonForReply.className = "buttonForReply";
                 countDivForUp.className = "countUp";
                 countDivForUp.setAttribute('id',`cu-${tempEle._id}`)
                 countDivForDown.className = "countDown";

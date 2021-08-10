@@ -72,7 +72,8 @@ label {
 }
 
 .signUpButton,
-.loginButton {
+.loginButton,
+.visitSignUp {
     outline: none;
     border: none;
     height: 2em;
@@ -80,7 +81,8 @@ label {
     font-weight: bolder;
     background-color: rgb(243, 241, 241);
     color: rgb(252, 178, 191);
-    cursor: pointer;
+    cursor: pointer;;
+    margin-bottom: 1em;
 }
 
 .message {
