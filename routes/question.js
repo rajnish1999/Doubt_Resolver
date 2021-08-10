@@ -17,21 +17,30 @@ router.post('/addQuestion', isAuth, async (req, res) => {
 })
 
 router.post('/question/upVote', async (req, res) => {
+    console.log(req.body);
     const questionId = req.body.id;
+    let isSame=false;
     try {
         let question = await Question.findById(questionId);
         if(question.upVote.includes(req.user._id)){
-            return res.send("Already liked");
+            return res.status(400).send("Already liked");
         }
         question.upVote.push(req.user._id);
 
-        if(question.downVote.includes(req,user._id)){
-            const index = question.downVote.findIndex(req.user._id);
+        if(question.downVote.includes(req.user._id)){
+            const index = question.downVote.indexOf(req.user._id);
             const removedEle = question.downVote.splice(index, 1);
+            isSame = true;
+        }
+        await question.save();
+        
+        let count = {
+            upVote: question.upVote.length,
+            downVote: question.downVote.length,
+            isSame
         }
 
-        await question.save();
-        res.status(201).send("upVote updated successfully")
+        res.status(201).json(count);
 
     } catch(err) {
         throw err;
@@ -40,22 +49,32 @@ router.post('/question/upVote', async (req, res) => {
 
 router.post('/question/downVote', async (req, res) => {
     const questionId = req.body.id;
+    let isSame = false;
     try {
         let question = await Question.findById(questionId);
 
         if(question.downVote.includes(req.user._id)) {
-            return res.send('already downVoted')
+            return res.status(400).send('already downVoted')
         }
         
         if(question.upVote.includes(req.user._id)){
-            const index = question.upVote.findIndex(req.user._id);
+            const index = question.upVote.indexOf(req.user._id);
             const removedEle = question.upVote.splice(index, 1);
+            isSame = true;
         }
 
         question.downVote.push(req.user._id);
-        await question.save();
 
-        res.status(201).send("downVote updated successfully")
+        await question.save();
+        
+        let count = {
+            upVote: question.upVote.length,
+            downVote: question.downVote.length,
+            isSame
+        }
+
+        
+        res.status(201).json(count);
     } catch(err) {
         throw err;
     }

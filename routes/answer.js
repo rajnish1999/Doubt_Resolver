@@ -19,6 +19,7 @@ router.post('/addAnswer', isAuth, async (req, res) => {
 
 router.post('/answer/upVote', async (req, res) => {
     const answerId = req.body.id;
+    let isSame=false;
     try {
         let answer = await Answer.findById(answerId);
         if(answer.upVote.includes(req.user._id)){
@@ -26,13 +27,21 @@ router.post('/answer/upVote', async (req, res) => {
         }
         answer.upVote.push(req.user._id);
 
-        if(answer.downVote.includes(req,user._id)){
-            const index = answer.downVote.findIndex(req.user._id);
+        if(answer.downVote.includes(req.user._id)){
+            const index = answer.downVote.indexOf(req.user._id);
             const removedEle = answer.downVote.splice(index, 1);
+            isSame = true;
         }
 
         await answer.save();
-        res.status(201).send("upVote updated successfully")
+        let count = {
+            upVote: answer.upVote.length,
+            downVote: answer.downVote.length,
+            isSame
+        }
+
+       
+        res.status(201).json(count);
 
     } catch(err) {
         throw err;
@@ -41,6 +50,7 @@ router.post('/answer/upVote', async (req, res) => {
 
 router.post('/answer/downVote', async (req, res) => {
     const answerId = req.body.id;
+    let isSame = false;
     try {
         let answer = await Answer.findById(answerId);
 
@@ -49,14 +59,23 @@ router.post('/answer/downVote', async (req, res) => {
         }
         
         if(answer.upVote.includes(req.user._id)){
-            const index = answer.upVote.findIndex(req.user._id);
+            const index = answer.upVote.indexOf(req.user._id);
             const removedEle = answer.upVote.splice(index, 1);
+            isSame=true;
         }
 
         answer.downVote.push(req.user._id);
-        await answer.save();
 
-        res.status(201).send("downVote updated successfully")
+        await answer.save();
+        
+        let count = {
+            upVote: answer.upVote.length,
+            downVote: answer.downVote.length,
+            isSame
+        }
+
+        
+        res.status(201).json(count);
     } catch(err) {
         throw err;
     }

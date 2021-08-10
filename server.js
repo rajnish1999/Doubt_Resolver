@@ -58,7 +58,13 @@ app.get('/', isAuth, async (req, res) => {
         }).execPopulate()
         let newObj = question.toObject();
         newObj.dateAndTime = moment(question.createdAt).format("LLL")
-        
+        console.log(newObj.upVote.filter((id) => id == req.user._id).length);   
+        if(newObj.upVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isUpVote = true;
+        }
+        if(newObj.downVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isDownVote = true;
+        }
         return newObj;
        
     }
@@ -69,6 +75,12 @@ app.get('/', isAuth, async (req, res) => {
         }).execPopulate()
         let newObj = answer.toObject();
         newObj.dateAndTime = moment(answer.createdAt).format("LLL")
+        if(newObj.upVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isUpVote = true;
+        }
+        if(newObj.downVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isDownVote = true;
+        }
         // console.log("inside a")
         return newObj;
         
@@ -80,6 +92,12 @@ app.get('/', isAuth, async (req, res) => {
         }).execPopulate()
         let newObj = comment.toObject();
         newObj.dateAndTime = moment(comment.createdAt).format("LLL")
+        if(newObj.upVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isUpVote = true;
+        }
+        if(newObj.downVote.filter((id) => JSON.stringify(id) == JSON.stringify(req.user._id)).length > 0){
+            newObj.isDownVote = true;
+        }
         // console.log("inside c")
         return newObj;
        
@@ -104,8 +122,7 @@ app.get('/', isAuth, async (req, res) => {
         let data = await cFunc(commentArr[i]);
         newCommentArr.push(data);
     }
-    // console.log("just before render")
-    // console.log(newAnsArr)
+    
     res.render('landingPage', {
         questionArr: newQuesArr,
         answerArr: newAnsArr,

@@ -218,9 +218,35 @@ h2{
     justify-content: space-between;
 }
 
+.divForUp,
+.divForDown {
+    display: flex;
+    align-items: center;
+    margin-right: 1em
+}
+
 .buttonForUp,
 .buttonForDown {
-    margin-right: 1em
+    margin-right: 0.5em;
+    border: none;
+    background: none;
+    padding-left: 0;
+    padding-right: 0;
+    cursor: pointer;
+}
+
+.divForDown {
+    padding-left: 1em;
+    border-left: 1px solid #ccc;
+}
+
+.countUp,
+.countDown {
+    font-size: 1em;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #333;
+    font-weight: normal;
+    font-style: normal;
 }
 
 

@@ -7,7 +7,6 @@
             <button class="ques_button" type="submit">Add Question</button>
         </form>
     </div>
-
     
     <% for(let i=0;i< questionArr.length;i++) { %>
         <div class="outerDivForQuestions">
@@ -15,8 +14,14 @@
                 <h1><%= questionArr[i].description %></h1>
                 <div class="questionOptions">
                     <div class="upAndDownVote">
-                        <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
-                        <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
+                        <div class="divForUp">
+                            <button  class="buttonForUp" onClick="questionUpFunc('<%= questionArr[i]._id %>')"><i id="iqu-<%=questionArr[i]._id%>" class="<%= questionArr[i].isUpVote ? 'fad' : 'fal' %> fa-thumbs-up fa-2x"></i></button>
+                            <div id='qu-<%= questionArr[i]._id %>' class="countUp"><%= questionArr[i].upVote.length <= 0 ? '' : questionArr[i].upVote.length %></div>
+                        </div>
+                        <div class="divForDown">                        
+                            <button class="buttonForDown" onClick="questionDownFunc('<%= questionArr[i]._id %>')"><i id="iqd-<%=questionArr[i]._id%>" class="<%= questionArr[i].isDownVote ? 'fad' : 'fal' %> fa-thumbs-down fa-2x"></i></button>
+                            <div id='qd-<%= questionArr[i]._id %>' class="countDown"><%= questionArr[i].downVote.length <= 0 ? '' : questionArr[i].downVote.length %></div>
+                        </div>
                     </div>
                     <button id="answerToggle-<%= i %>" onClick="toggleAnswer('<%= i %>')">Answers</button>
                 </div>
@@ -47,8 +52,14 @@
                             <h2><%= answerArr[j].answerText %></h2>
                             <div class="answerOptions">
                                 <div class="upAndDownVote">
-                                    <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
-                                    <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
+                                    <div class="divForUp">
+                                        <button class="buttonForUp" onClick="answerUpFunc('<%= answerArr[j]._id %>')"><i id="iau-<%=answerArr[j]._id%>" class="<%= answerArr[j].isUpVote ? 'fad' : 'fal' %> fa-thumbs-up fa-2x"></i></button>
+                                        <div id='au-<%= answerArr[j]._id %>' class="countUp"><%= answerArr[j].upVote.length > 0 ? answerArr[j].upVote.length : '' %></div>
+                                    </div>
+                                    <div class="divForDown">                        
+                                        <button class="buttonForDown" onClick="answerDownFunc('<%= answerArr[j]._id %>')"><i id="iad-<%=answerArr[j]._id%>" class="<%= answerArr[j].isDownVote ? 'fad' : 'fal' %> fa-thumbs-down fa-2x"></i></button>
+                                        <div id='ad-<%= answerArr[j]._id %>' class="countDown"><%= answerArr[j].downVote.length > 0 ? answerArr[j].downVote.length : '' %></div>
+                                    </div>
                                 </div>
                                 <button id="commentToggle-<%= j %>" onClick="toggleComment('<%= j %>')">Comments</button>
                             </div>
@@ -77,8 +88,14 @@
                                         <h2><%= commentArr[k].commentText %></h2>
                                         <div class="commentOptions">
                                             <div class="upAndDownVote">
-                                                <button class="buttonForUp"><i class="fal fa-thumbs-up fa-2x"></i></button>
-                                                <button class="buttonForDown"><i class="fal fa-thumbs-down fa-2x"></i></button>
+                                                <div class="divForUp">
+                                                    <button class="buttonForUp" onClick="commentUpFunc('<%= commentArr[k]._id %>')"><i id="icu-<%=commentArr[k]._id%>" class="<%= commentArr[k].isUpVote ? 'fad' : 'fal' %> fa-thumbs-up fa-2x"></i></button>
+                                                    <div id='cu-<%= commentArr[k]._id %>' class="countUp"><%= commentArr[k].upVote.length > 0 ? commentArr[k].upVote.length : '' %></div>
+                                                </div>
+                                                <div class="divForDown">                        
+                                                    <button class="buttonForDown" onClick="commentDownFunc('<%= commentArr[k]._id %>')"><i id="icd-<%=commentArr[k]._id%>" class="<%= commentArr[k].isDownVote ? 'fad' : 'fal' %> fa-thumbs-down fa-2x"></i></button>
+                                                    <div id='cd-<%= commentArr[k]._id %>' class="countDown"><%= commentArr[k].downVote.length > 0 ? commentArr[k].downVote.length : '' %></div>
+                                                </div>
                                                 <button 
                                                     onClick="toggleAddSubComment('<%= commentArr[k]._id %>')"
                                                     >
@@ -105,6 +122,229 @@
 </div>
 
 <script>
+
+    const questionUpFunc = async (id) => {
+        let temp = document.getElementById(`qu-${id}`);
+        let temp1 = document.getElementById(`qd-${id}`);
+        let iconThumbsUp = document.getElementById(`iqu-${id}`)
+        let iconThumbsDown = document.getElementById(`iqd-${id}`)
+
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/question/upVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            iconThumbsUp.classList.toggle('fal');
+            iconThumbsUp.classList.toggle('fad');
+            temp.innerHTML = result.upVote;
+
+            if(result.downVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.downVote;
+            }
+            
+            if(result.isSame){
+                iconThumbsDown.classList.toggle('fad');
+                iconThumbsDown.classList.toggle('fal'); 
+            }
+            
+            console.log(result)
+        }catch (err) {
+            throw err;
+        }
+    }
+
+    const questionDownFunc = async (id) => {
+        let temp = document.getElementById(`qd-${id}`);
+        let temp1 = document.getElementById(`qu-${id}`);
+        let iconThumbsUp = document.getElementById(`iqu-${id}`)
+        let iconThumbsDown = document.getElementById(`iqd-${id}`)
+        // console.log(typeof temp.innerHTML);
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/question/downVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            iconThumbsDown.classList.toggle('fal');
+            iconThumbsDown.classList.toggle('fad');
+            temp.innerHTML = result.downVote;
+            if(result.upVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.upVote;
+            }
+            if(result.isSame){
+                iconThumbsUp.classList.toggle('fad');
+                iconThumbsUp.classList.toggle('fal'); 
+            }
+        }catch (err) {
+            throw err;
+        }
+    }
+
+    const answerUpFunc = async (id) => {
+        let temp = document.getElementById(`au-${id}`);
+        let temp1 = document.getElementById(`ad-${id}`);
+        let iconThumbsUp = document.getElementById(`iau-${id}`)
+        let iconThumbsDown = document.getElementById(`iad-${id}`)
+        console.log(typeof temp.innerHTML);
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/answer/upVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            iconThumbsUp.classList.toggle('fal');
+            iconThumbsUp.classList.toggle('fad');
+            temp.innerHTML = result.upVote;
+            if(result.downVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.downVote;
+            }
+            if(result.isSame){
+                iconThumbsDown.classList.toggle('fad');
+                iconThumbsDown.classList.toggle('fal'); 
+            }
+        }catch (err) {
+            throw err;
+        }
+    }
+
+    const answerDownFunc = async (id) => {
+        let temp = document.getElementById(`ad-${id}`);
+        let temp1 = document.getElementById(`au-${id}`);
+        let iconThumbsUp = document.getElementById(`iau-${id}`)
+        let iconThumbsDown = document.getElementById(`iad-${id}`)
+        console.log(typeof temp.innerHTML);
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/answer/downVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            iconThumbsDown.classList.toggle('fal');
+            iconThumbsDown.classList.toggle('fad');
+            temp.innerHTML = result.downVote;
+            if(result.upVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.upVote;
+            }
+            if(result.isSame){
+                iconThumbsUp.classList.toggle('fad');
+                iconThumbsUp.classList.toggle('fal'); 
+            }
+        }catch (err) {
+            throw err;
+        }
+    }
+
+    const commentUpFunc = async (id) => {
+        let temp = document.getElementById(`cu-${id}`);
+        let temp1 = document.getElementById(`cd-${id}`);
+        let iconThumbsUp = document.getElementById(`icu-${id}`)
+        let iconThumbsDown = document.getElementById(`icd-${id}`)
+        console.log(typeof temp.innerHTML);
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/comment/upVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            iconThumbsUp.classList.toggle('fal');
+            iconThumbsUp.classList.toggle('fad');
+            temp.innerHTML = result.upVote;
+            if(result.downVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.downVote;
+            }
+            if(result.isSame){
+                iconThumbsDown.classList.toggle('fad');
+                iconThumbsDown.classList.toggle('fal'); 
+            }
+        }catch (err) {
+            throw err;
+        }
+    }
+
+    const commentDownFunc = async (id) => {
+        let temp = document.getElementById(`cd-${id}`);
+        let temp1 = document.getElementById(`cu-${id}`);
+        let iconThumbsUp = document.getElementById(`icu-${id}`)
+        let iconThumbsDown = document.getElementById(`icd-${id}`)
+        
+        console.log(typeof temp.innerHTML);
+        try {
+                let data = {
+                    id
+                }
+                let response = await fetch('/comment/downVote', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+
+            let result = await response.json();
+            console.log(result)
+            iconThumbsDown.classList.toggle('fal');
+            iconThumbsDown.classList.toggle('fad');
+            temp.innerHTML = result.downVote;
+            if(result.upVote == 0){
+                temp1.innerHTML = '';
+            }else{
+                temp1.innerHTML = result.upVote;
+            }
+            if(result.isSame){
+                iconThumbsUp.classList.toggle('fad');
+                iconThumbsUp.classList.toggle('fal'); 
+            }
+        }catch (err) {
+            throw err;
+        }
+    }
+
     const toggleAnswer = (i) => {
         const ansOfQ = document.getElementById(`seeAllAns-${i}`);
 
@@ -182,6 +422,10 @@
                 // below is the options part
                 let outerDivForSubCommentOptions = document.createElement('div');
                 let optionsOfSubComponents = document.createElement('div');
+                let newOuterDivForUp = document.createElement('div');
+                let newOuterDivForDown = document.createElement('div');
+                let countDivForUp = document.createElement('div');
+                let countDivForDown = document.createElement('div');
                 let newButtonForUp = document.createElement('button');
                 let newButtonForDown = document.createElement('button');
                 let newButtonForReply = document.createElement('button');
@@ -190,9 +434,13 @@
                 let newIForReply = document.createElement('i');
 
                 outerDivForSubCommentOptions.appendChild(optionsOfSubComponents);
-                optionsOfSubComponents.appendChild(newButtonForUp);
-                optionsOfSubComponents.appendChild(newButtonForDown);
+                optionsOfSubComponents.appendChild(newOuterDivForUp);
+                optionsOfSubComponents.appendChild(newOuterDivForDown);
                 optionsOfSubComponents.appendChild(newButtonForReply);
+                newOuterDivForUp.appendChild(newButtonForUp);
+                newOuterDivForUp.appendChild(countDivForUp);
+                newOuterDivForDown.appendChild(newButtonForDown);
+                newOuterDivForDown.appendChild(countDivForDown);
                 newButtonForUp.appendChild(newIForUp);
                 newButtonForDown.appendChild(newIForDown);
                 newButtonForReply.appendChild(newIForReply);
@@ -200,12 +448,26 @@
                 outerDivForSubCommentOptions.className = "subCommentOptions"
                 optionsOfSubComponents.className = "upAndDownVote";
                 newButtonForUp.className = "buttonForUp"
-                newButtonForDown.className = "buttonForDown"
+                newButtonForUp.addEventListener("click", function(e){
+                    commentUpFunc(`${tempEle._id}`)
+                })
+                newButtonForDown.className = "buttonForDown";
+                newButtonForDown.addEventListener("click", function(e){
+                    commentDownFunc(`${tempEle._id}`)
+                })
                 newButtonForReply.addEventListener('click', function(e) {
                     toggleAddSubComment(`${tempEle._id}`)
                 })
-                newIForUp.className = "fal fa-thumbs-up fa-2x";
-                newIForDown.className = "fal fa-thumbs-down fa-2x";
+                countDivForUp.className = "countUp";
+                countDivForUp.setAttribute('id',`cu-${tempEle._id}`)
+                countDivForDown.className = "countDown";
+                countDivForDown.setAttribute('id',`cd-${tempEle._id}`)
+                countDivForUp.innerHTML = tempEle.upVote.length > 0 ? tempEle.upVote.length : '';
+                countDivForDown.innerHTML = tempEle.downVote.length > 0 ? tempEle.downVote.length : '';
+                newIForUp.setAttribute("id", `icu-${tempEle._id}`)
+                newIForDown.setAttribute("id", `icd-${tempEle._id}`)
+                newIForUp.className = tempEle.isUpVote ? "fad fa-thumbs-up fa-2x" : "fal fa-thumbs-up fa-2x";
+                newIForDown.className = tempEle.isDownVote ? "fad fa-thumbs-up fa-2x" : "fal fa-thumbs-up fa-2x";
                 newIForReply.className = "fal fa-reply fa-2x";
 
                 // below is the user info part

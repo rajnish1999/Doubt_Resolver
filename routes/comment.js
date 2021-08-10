@@ -29,6 +29,7 @@ router.post('/addComment', isAuth, async (req, res) => {
 
 router.post('/comment/upVote', async (req, res) => {
     const commentId = req.body.id;
+    let isSame = false;
     try {
         let comment = await Comment.findById(commentId);
         if(comment.upVote.includes(req.user._id)){
@@ -36,13 +37,22 @@ router.post('/comment/upVote', async (req, res) => {
         }
         comment.upVote.push(req.user._id);
 
-        if(comment.downVote.includes(req,user._id)){
-            const index = comment.downVote.findIndex(req.user._id);
+        if(comment.downVote.includes(req.user._id)){
+            const index = comment.downVote.indexOf(req.user._id);
             const removedEle = comment.downVote.splice(index, 1);
+            isSame = true;
         }
 
         await comment.save();
-        res.status(201).send("upVote updated successfully")
+
+        let count = {
+            upVote: comment.upVote.length,
+            downVote: comment.downVote.length,
+            isSame
+        }
+
+        
+        res.status(201).json(count);
 
     } catch(err) {
         throw err;
@@ -51,6 +61,7 @@ router.post('/comment/upVote', async (req, res) => {
 
 router.post('/comment/downVote', async (req, res) => {
     const commentId = req.body.id;
+    let isSame = false;
     try {
         let comment = await Comment.findById(commentId);
 
@@ -59,14 +70,23 @@ router.post('/comment/downVote', async (req, res) => {
         }
         
         if(comment.upVote.includes(req.user._id)){
-            const index = comment.upVote.findIndex(req.user._id);
+            const index = comment.upVote.indexOf(req.user._id);
             const removedEle = comment.upVote.splice(index, 1);
+            isSame=true;
         }
 
         comment.downVote.push(req.user._id);
-        await comment.save();
 
-        res.status(201).send("downVote updated successfully")
+        await comment.save();
+        
+        let count = {
+            upVote: comment.upVote.length,
+            downVote: comment.downVote.length,
+            isSame
+        }
+
+        
+        res.status(201).json(count);
     } catch(err) {
         throw err;
     }
