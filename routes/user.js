@@ -9,8 +9,7 @@ const passport = require('../authentication/passportAuth');
 const isAuth = require('./authMiddleware');
 const checkForLogin = require('./loginMiddleware');
 
-router.get('/signUp', (req, res) => {
-    console.log("isnide signUp")
+router.get('/signUp',checkForLogin, (req, res) => {
     res.render('signUp',{
         user: req.user
     });
