@@ -12,6 +12,17 @@
     <% for(let i=0;i< questionArr.length;i++) { %>
         <div class="outerDivForQuestions">
             <div class="divShowingQuestion">
+                <div class="userInfo">
+                    <div class="userDP">
+                        <img src="/profile/avatar/<%= questionArr[i].creator._id %>" alt="" class="userImage">
+                    </div>
+                    <div class="nameAndDate">
+                        <div class="userNameAnswer"><%= questionArr[i].creator.username %></div>
+                        <div class="userDateAnswer">
+                            <%= questionArr[i].dateAndTime%>
+                        </div>
+                    </div>
+                </div>
                 <h1><%= questionArr[i].description %></h1>
                 <div class="questionOptions">
                     <div class="upAndDownVote">
@@ -41,7 +52,7 @@
                         <div class="divShowingAnswer">
                             <div class="userInfo">
                                 <div class="userDP">
-                                    <img src="http://localhost:5000/profile/avatar/<%= answerArr[j].creator._id %>" alt="" class="userImage">
+                                    <img src="/profile/avatar/<%= answerArr[j].creator._id %>" alt="" class="userImage">
                                 </div>
                                 <div class="nameAndDate">
                                     <div class="userNameAnswer"><%= answerArr[j].creator.username %></div>
@@ -79,7 +90,7 @@
                                     <div class="divShowingComment" id="<%= commentArr[k]._id %>">
                                         <div class="userInfo">
                                             <div class="userDP">
-                                                <img src="http://localhost:5000/profile/avatar/<%= commentArr[k].creator._id %>" alt="" class="userImageComment">
+                                                <img src="/profile/avatar/<%= commentArr[k].creator._id %>" alt="" class="userImageComment">
                                             </div>
                                             <div class="nameAndDate">
                                                 <div class="userNameComment"><%= answerArr[j].creator.username %></div>
@@ -496,7 +507,7 @@
                 
                 newDivForName.className = "userNameComment";
                 newDivForDate.className = "userDateComment"
-                imageTagForUser.src = `http://localhost:5000/profile/avatar/${tempEle.creator._id}`;
+                imageTagForUser.src = `/profile/avatar/${tempEle.creator._id}`;
                 imageTagForUser.className = "userImageComment";
 
                 newDivForName.innerHTML = `${tempEle.creator.username}`;
