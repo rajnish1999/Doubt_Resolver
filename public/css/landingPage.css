@@ -11,7 +11,7 @@ textarea {
     outline: none; 
     resize: none;
     font-size: 1rem;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 h1 {
@@ -42,7 +42,7 @@ h2{
 }
 
 .askQuesDiv h1 {
-    margin: 0 auto;
+    margin: 0.5em auto;
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
    
@@ -52,18 +52,24 @@ h2{
     width: 90%;
     height: 90%;
     margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 #quesInput {
     width: 95%;
-    height: 60%;
-    margin: auto;
+    height: 40%;
+    margin: 0 auto;
     border-radius: 0.5rem;
     border: 0.5rem groove rgb(87, 28, 67);
 }
 
 .ques_button {
-    display: block
+    margin: 1em auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 0.5em;
+    font-size: 1em;
 }
 
 .outerDivForQuestions {
