@@ -9,7 +9,8 @@ router.post('/addQuestion', isAuth, async (req, res) => {
     const quesText = req.body.qt
 
     const newQuestion = new Question({
-        "description": quesText
+        "description": quesText,
+        "creator": req.user._id
     })
     const data = await newQuestion.save()
 
